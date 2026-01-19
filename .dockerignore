@@ -1,0 +1,15 @@
+node_modules
+.next
+dist
+.env
+.env.local
+.env.*.local
+Dockerfile
+compose.yml
+.git
+.hg
+*.log
+pnpm-store
+/.vscode
+coverage
+out
