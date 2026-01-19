@@ -19,7 +19,7 @@ services:
         NODE_ENV: ${NODE_ENV}
     container_name: vibe-obs-app
     ports:
-      - "3602:3001"
+      - "3602:3000"
     env_file: .env
     environment:
       NODE_ENV: ${NODE_ENV}
