@@ -27,7 +27,7 @@ export interface TimerSession {
 
 export async function createTimerSession(mode: TimerMode): Promise<TimerSession> {
   const client = await clientPromise
-  const db = client.db("obs-timer")
+  const db = client.db("vibe-obs")
 
   const session: TimerSession = {
     id: nanoid(10),
@@ -52,7 +52,7 @@ export async function createTimerSession(mode: TimerMode): Promise<TimerSession>
 
 export async function getTimerSession(id: string): Promise<TimerSession | null> {
   const client = await clientPromise
-  const db = client.db("obs-timer")
+  const db = client.db("vibe-obs")
 
   const session = await db.collection("sessions").findOne({ id })
   return session as TimerSession | null
@@ -60,7 +60,7 @@ export async function getTimerSession(id: string): Promise<TimerSession | null> 
 
 export async function updateTimerSession(id: string, updates: Partial<TimerSession>): Promise<TimerSession | null> {
   const client = await clientPromise
-  const db = client.db("obs-timer")
+  const db = client.db("vibe-obs")
 
   const result = await db.collection("sessions").findOneAndUpdate(
     { id },
