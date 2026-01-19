@@ -30,7 +30,7 @@ export default function ViewerPage() {
   useEffect(() => {
     fetchSession()
 
-    const interval = setInterval(fetchSession, 1000) // Poll every second
+    const interval = setInterval(fetchSession, 500) // Poll every 500 milliseconds
 
     return () => {
       clearInterval(interval)
