@@ -6,6 +6,12 @@ RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 # copy source excluding node_modules (handled by .dockerignore)
 COPY . .
+ARG MONGODB_URI
+ARG NEXT_PUBLIC_APP_URL
+ARG NODE_ENV
+ENV MONGODB_URI=${MONGODB_URI}
+ENV NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
+ENV NODE_ENV=${NODE_ENV}
 RUN pnpm build
 
 FROM node:22-alpine

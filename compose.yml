@@ -13,6 +13,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        MONGODB_URI: ${MONGODB_URI}
+        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
+        NODE_ENV: ${NODE_ENV}
     container_name: vibe-obs-app
     ports:
       - "3602:3001"
