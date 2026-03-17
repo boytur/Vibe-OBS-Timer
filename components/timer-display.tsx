@@ -75,9 +75,9 @@ export function TimerDisplay({
       )
     } else if (mode === "stopwatch") {
       if (isRunning && startTime) {
-        timeToDisplay = now - startTime
+        timeToDisplay = Math.max(0, now - startTime)
       } else if (pausedAt && startTime) {
-        timeToDisplay = pausedAt - startTime
+        timeToDisplay = Math.max(0, pausedAt - startTime)
       }
       setDisplayTime(formatTime(timeToDisplay))
     } else if (mode === "countdown") {
