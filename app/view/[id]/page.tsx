@@ -10,30 +10,31 @@ export default function ViewerPage() {
   const [session, setSession] = useState<TimerSession | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  // Fetch session data
-  const fetchSession = async () => {
-    try {
-      const response = await fetch(`/api/sessions/${params.id}`)
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch timer session")
-      }
-
-      const data = await response.json()
-      setSession(data.session)
-    } catch (err) {
-      setError("Failed to fetch timer session")
-    }
-  }
-
-  // Start polling for updates
+  // Subscribe to real-time session updates via SSE
   useEffect(() => {
-    fetchSession()
+    const eventSource = new EventSource(`/api/sessions/${params.id}/stream`)
 
-    const interval = setInterval(fetchSession, 500) // Poll every 500 milliseconds
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data)
+        if (data.error === "not_found") {
+          setError("Timer not found")
+          eventSource.close()
+        } else if (data.session) {
+          setSession(data.session)
+        }
+      } catch {
+        // ignore parse errors
+      }
+    }
+
+    eventSource.onerror = () => {
+      setError("Failed to connect to timer session")
+      eventSource.close()
+    }
 
     return () => {
-      clearInterval(interval)
+      eventSource.close()
     }
   }, [params.id])
 
